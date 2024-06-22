@@ -1,0 +1,30 @@
+.sidebar{
+    width:18%;
+    height:100vh;
+    border:1.5px solid #a9a9a9;
+    border-top:0;
+}
+.sidebar-options{
+    display:flex;
+    justify-content: end;
+    flex-direction: column;
+    padding-left: 20%;
+    padding-top: 50px;
+    gap:20px;
+}
+.sidebar-option{
+    border:1px solid black;
+    border-right: 0;
+    cursor:pointer;
+    display:flex;
+    gap:30px;
+}
+
+.sidebar-option p{
+    padding-top: 5px;
+}
+
+.sidebar-option.active{
+    background-color: rgba(128, 128, 128, 0.984);
+    border-color: tomato;
+}

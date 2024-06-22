@@ -1,0 +1,31 @@
+.add{
+    margin-top:50px;
+    margin-left:100px;
+    width:70%;
+    font-size: 16px;
+    color: #6d6d6d;
+}
+
+.product-name{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.product-name input{
+       width:80%;
+}
+.product-description textarea{
+    width:100%;
+}
+
+.product-description{
+    margin-bottom: 15px;
+}
+
+.category-price .category-price{
+    margin-bottom: 15px;
+    margin-top:15px;
+}
+
+.btn{
+    margin-left: 40%;
+}

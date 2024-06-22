@@ -1,0 +1,16 @@
+
+
+.icons{
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    align-items: center;
+    gap:5px;
+}
+.icons img:hover{
+    transform: scale(1.05);}
+.app1 {
+    margin-top: 100px;
+    text-align: center;
+    cursor: pointer;
+}

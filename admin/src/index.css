@@ -1,0 +1,20 @@
+*{
+  padding:0;
+  margin:0;
+  box-sizing: border-box;
+}
+
+body{
+  min-height: 100vh;
+  background-color: #fcfcfc;
+}
+
+.app-content{
+  display:flex;
+}
+
+a{
+  text-decoration: none;
+  font-weight: 500;
+  color: black;
+}
