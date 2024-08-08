@@ -35,6 +35,7 @@ const LoginPopUp = ({ setShowLogin }) => {
             if (response.data.success) {
                 setToken(response.data.token);
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("userId", response.data.userId); // Store userId in local storage
                 setShowLogin(false);
             } else {
                 alert(response.data.message);

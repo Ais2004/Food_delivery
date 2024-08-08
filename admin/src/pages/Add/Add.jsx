@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Add = () => {
     const url = "http://localhost:8080";
-    const [image, setImage] = useState(false);
+    const [image, setImage] = useState(null);
     const [data, setData] = useState({
         name: "",
         description: "",
@@ -25,14 +25,15 @@ const Add = () => {
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-        const formData = new FormData(); // Corrected initialization
-        formData.append("name", data.name)
-        formData.append("description", data.description)
-        formData.append("price", Number(data.price))
-        formData.append("category", data.category)
-        formData.append("image", image) // Corrected image append
-        const response = await axios.post(`${url}/api/food/add`, formData);
+        const formData = new FormData();
+        formData.append("name", data.name);
+        formData.append("description", data.description);
+        formData.append("price", Number(data.price));
+        formData.append("category", data.category);
+        formData.append("image", image);
+
         try {
+            const response = await axios.post(`${url}/api/food/add`, formData);
             if (response.data.success) {
                 setData({
                     name: "",
@@ -40,9 +41,8 @@ const Add = () => {
                     price: "",
                     category: "Salad"
                 });
-                setImage(false);
+                setImage(null);
             } else {
-                // Handle the error case
                 console.error("Error submitting form", response.data.message);
             }
         } catch (error) {

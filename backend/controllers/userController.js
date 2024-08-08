@@ -4,31 +4,29 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"; // Corrected import for bcryptjs
 import validator from "validator";
 
-// Login user function (to be implemented)
-const loginUser = async (req, res) => {
-  // Implement login functionality here
-  const {email,password}=req.body;
-  try{
-    const user=await userModel.findOne({email})
-    if(!user){
-      return res.json({success:false,message:"user doesnt exist"});
-    }
-    const isMatch=await bcrypt.compare(password,user.password);
-    if(!isMatch){
-      return res.json({success:false,message:"invalid"});
-    }
-    const token=createToken(user._id);
-    res.json({success:true,token})
-  }
-  catch(error){
-    console.log(error);
-    res.json({ success: false, message: "error " });
-  }
-};
-
 // Function to create JWT token
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET);
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+};
+
+// Login user function
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ success: false, message: "User doesn't exist" });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, message: "Invalid password" });
+    }
+    const token = createToken(user._id);
+    res.status(200).json({ success: true, token, userId: user._id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 };
 
 // Register user function
@@ -38,15 +36,15 @@ const registerUser = async (req, res) => {
     // Check if user already exists
     const exists = await userModel.findOne({ email });
     if (exists) {
-      return res.json({ success: false, message: "User already exists" });
+      return res.status(400).json({ success: false, message: "User already exists" });
     }
 
     // Validate email format and password strength
     if (!validator.isEmail(email)) {
-      return res.json({ success: false, message: "Invalid email format" });
+      return res.status(400).json({ success: false, message: "Invalid email format" });
     }
     if (password.length < 8) {
-      return res.json({ success: false, message: "Password length must be at least 8 characters" });
+      return res.status(400).json({ success: false, message: "Password length must be at least 8 characters" });
     }
 
     // Hashing user password
@@ -55,8 +53,8 @@ const registerUser = async (req, res) => {
 
     // Create a new user instance
     const newUser = new userModel({
-      name: name,
-      email: email,
+      name,
+      email,
       password: hashedPassword
     });
 
@@ -67,14 +65,13 @@ const registerUser = async (req, res) => {
     const token = createToken(user._id);
 
     // Send success response with token
-    res.json({ success: true, token });
+    res.status(201).json({ success: true, token, userId: user._id });
   } catch (error) {
     // Log any errors that occur during registration
     console.log(error);
-    res.json({ success: false, message: "Registration failed" });
+    res.status(500).json({ success: false, message: "Registration failed" });
   }
 };
 
 // Export loginUser and registerUser functions
 export { loginUser, registerUser };
-
