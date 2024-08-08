@@ -131,7 +131,7 @@ const verifyOrder = async (req, res) => {
   };
   
 
-const userOrder = async (req, res) => {
+/*const userOrder = async (req, res) => {
   try {
     const orders = await orderModel.find({ userId: req.body.userId });
     res.json({ success: true, data: orders });
@@ -139,6 +139,31 @@ const userOrder = async (req, res) => {
     console.log(error);
     res.json({ success: false, message: "Order Fetching failed." });
   }
+};*/
+const userOrder = async (req, res) => {
+  try {
+      console.log('Token verified:', req.user); // Log the entire req.user object to debug
+      const userId = req.user.id; // Correctly retrieve the user ID
+      console.log('Fetching orders for user:', userId); // This should now log the user ID
+      const orders = await orderModel.find({ userId });
+      console.log('Orders fetched:', orders); // Log the orders fetched
+      res.json({ success: true, data: orders });
+  } catch (error) {
+      console.log(error);
+      res.json({ success: false, message: "Order Fetching failed." });
+  }
 };
 
-export { placeOrder, verifyOrder, userOrder };
+//admin panel
+
+const listOrders=async(req,res)=>{
+  try{
+    const orders=await orderModel.find({});
+    res.json({success:true,data:orders})
+  }
+  catch(error){
+    console.log(error);
+    res.json({success:false,message:"error"})
+  }
+}
+export { placeOrder, verifyOrder, userOrder,listOrders };
